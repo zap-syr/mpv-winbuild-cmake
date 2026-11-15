@@ -5,6 +5,8 @@ defaults:
 
 on:
   workflow_dispatch:
+  push:
+    branches: [loftra-lgpl]
 
 env:
   BIT: x86_64
