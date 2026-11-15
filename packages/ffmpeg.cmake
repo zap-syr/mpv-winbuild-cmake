@@ -1,7 +1,6 @@
 ExternalProject_Add(ffmpeg
     DEPENDS
         amf-headers
-        avisynth-headers
         nvcodec-headers
         bzip2
         lame
@@ -11,8 +10,6 @@ ExternalProject_Add(ffmpeg
         libsrt
         libass
         libbluray
-        libdvdnav
-        libdvdread
         libmodplug
         libpng
         libsoxr
@@ -26,22 +23,15 @@ ExternalProject_Add(ffmpeg
         opus
         speex
         vorbis
-        x264
-        ${ffmpeg_x265}
         libxml2
         libvpl
         libopenmpt
         libjxl
         libplacebo
-        libzvbi
         libaribcaption
         aom
         svtav1
         dav1d
-        vapoursynth
-        ${ffmpeg_uavs3d}
-        ${ffmpeg_davs2}
-        rubberband
         libva
         openal-soft
     GIT_REPOSITORY https://github.com/FFmpeg/FFmpeg.git
@@ -57,14 +47,11 @@ ExternalProject_Add(ffmpeg
         --pkg-config-flags=--static
         --enable-cross-compile
         --enable-runtime-cpudetect
-        --enable-gpl
+        --disable-gpl
+        --disable-nonfree
         --enable-version3
-        --enable-avisynth
-        --enable-vapoursynth
         --enable-libass
         --enable-libbluray
-        --enable-libdvdnav
-        --enable-libdvdread
         --enable-libfreetype
         --enable-libfribidi
         --enable-libfontconfig
@@ -78,16 +65,11 @@ ExternalProject_Add(ffmpeg
         --enable-libspeex
         --enable-libvorbis
         --enable-libbs2b
-        --enable-librubberband
         --enable-libvpx
         --enable-libwebp
-        --enable-libx264
-        --enable-libx265
         --enable-libaom
         --enable-libsvtav1
         --enable-libdav1d
-        ${ffmpeg_davs2_cmd}
-        ${ffmpeg_uavs3d_cmd}
         --enable-libzimg
         --enable-openssl
         --enable-libxml2
@@ -97,7 +79,6 @@ ExternalProject_Add(ffmpeg
         --enable-libvpl
         --enable-libjxl
         --enable-libplacebo
-        --enable-libzvbi
         --enable-libaribcaption
         --enable-cuda-llvm
         --enable-cuvid
@@ -112,6 +93,8 @@ ExternalProject_Add(ffmpeg
         --disable-vdpau
         --disable-videotoolbox
         --disable-decoder=libaom_av1
+        --enable-decoder=hap,prores,notchlc
+        --enable-demuxer=mov
         ${ffmpeg_lto}
         --extra-cflags='-Wno-error=int-conversion'
         "--extra-libs='${ffmpeg_extra_libs}'" # -lstdc++ / -lc++ needs by libjxl and shaderc
