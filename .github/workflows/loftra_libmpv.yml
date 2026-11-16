@@ -11,6 +11,9 @@ on:
 env:
   BIT: x86_64
   CACHE_PREFIX: loftra-v1
+  # Packages cache only; bump it when a cached source points at a commit that
+  # upstream no longer has ("not our ref" in the update step).
+  PACKAGES_PREFIX: loftra-p2
 
 jobs:
   toolchain:
@@ -114,8 +117,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: build_x86_64
-          key: ${{ env.CACHE_PREFIX }}-packages_x86_64-${{ github.run_id }}
-          restore-keys: ${{ env.CACHE_PREFIX }}-packages_x86_64-
+          key: ${{ env.PACKAGES_PREFIX }}-packages_x86_64-${{ github.run_id }}
+          restore-keys: ${{ env.PACKAGES_PREFIX }}-packages_x86_64-
 
       - name: Loading x86_64 toolchain
         if: ${{ steps.packages_cache.outputs.cache-matched-key == '' }}
@@ -183,4 +186,4 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: build_x86_64
-          key: ${{ env.CACHE_PREFIX }}-packages_x86_64-${{ github.run_id }}
+          key: ${{ env.PACKAGES_PREFIX }}-packages_x86_64-${{ github.run_id }}
