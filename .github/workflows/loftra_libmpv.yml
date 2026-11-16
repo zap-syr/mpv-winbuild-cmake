@@ -150,6 +150,7 @@ jobs:
           mkdir -p out
           cp -r build_x86_64/mpv-dev-x86_64-* out/
           cp build_x86_64/x86_64-w64-mingw32/bin/ffmpeg.exe out/ || true
+          cp build_x86_64/x86_64-w64-mingw32/bin/ffprobe.exe out/
           ls -laR out
 
       - name: Collecting logs
