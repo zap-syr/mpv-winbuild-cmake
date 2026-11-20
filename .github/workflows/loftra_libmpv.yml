@@ -13,7 +13,7 @@ env:
   CACHE_PREFIX: loftra-v1
   # Packages cache only; bump it when a cached source points at a commit that
   # upstream no longer has ("not our ref" in the update step).
-  PACKAGES_PREFIX: loftra-p2
+  PACKAGES_PREFIX: loftra-p3
 
 jobs:
   toolchain:
