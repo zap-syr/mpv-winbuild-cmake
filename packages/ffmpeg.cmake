@@ -4,6 +4,7 @@ ExternalProject_Add(ffmpeg
         nvcodec-headers
         bzip2
         lame
+        libsnappy
         lcms2
         openssl
         libssh
@@ -59,6 +60,7 @@ ExternalProject_Add(ffmpeg
         --enable-libmodplug
         --enable-libopenmpt
         --enable-libmp3lame
+        --enable-libsnappy
         --enable-lcms2
         --enable-libopus
         --enable-libsoxr

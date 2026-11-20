@@ -13,6 +13,7 @@ list(APPEND ep
     libjpeg
     lcms2
     lame
+    libsnappy
     ogg
     vorbis
     opus-dnn
