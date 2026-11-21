@@ -21,7 +21,9 @@ ExternalProject_Add(openal-soft
         -DCMAKE_C_FLAGS='-include stdlib.h'
         -DCMAKE_CXX_FLAGS='-I<SOURCE_DIR>/gsl/include -include cstdlib'
     BUILD_COMMAND ${EXEC} ninja -C <BINARY_DIR>
-          COMMAND bash -c "echo 'Libs.private: -lole32 -luuid -lshlwapi' >> <BINARY_DIR>/openal.pc"
+          # openal.pc already has a Libs.private line and pkg-config ignores a
+          # second one, so add the Windows libraries to the existing line.
+          COMMAND bash -c "sed -i 's/^Libs.private:/Libs.private: -lole32 -luuid -lshlwapi -lshell32/' <BINARY_DIR>/openal.pc"
     INSTALL_COMMAND ${EXEC} ninja -C <BINARY_DIR> install
     LOG_DOWNLOAD 1 LOG_UPDATE 1 LOG_CONFIGURE 1 LOG_BUILD 1 LOG_INSTALL 1
 )
