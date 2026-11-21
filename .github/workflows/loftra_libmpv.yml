@@ -154,8 +154,9 @@ jobs:
             for d in hap prores notchlc; do grep -qw "$d" "$f" && echo "decoder $d: listed" || echo "decoder $d: NOT FOUND"; done
           done
           # The HAP encoder is only built with libsnappy; fail the run without it.
-          # The build dir is removed after install, so read the configure log.
-          log=$(find build_x86_64 -type f -iname "ffmpeg-configure*.log" | head -1)
+          # The build dir is removed after install, so read the configure log
+          # (the -out log; the -err log holds only warnings).
+          log=$(find build_x86_64 -type f -iname "ffmpeg-configure-out.log" | head -1)
           echo "configure log: $log"
           grep -qw libsnappy "$log" && echo "libsnappy: enabled" || { echo "libsnappy: NOT ENABLED"; exit 1; }
           awk '/^Enabled encoders:/{f=1;next} f&&/^(Enabled|Disabled|$)/{exit} f' "$log" | grep -w hap >/dev/null \
