@@ -98,7 +98,9 @@ ExternalProject_Add(ffmpeg
         --enable-demuxer=mov
         ${ffmpeg_lto}
         --extra-cflags='-Wno-error=int-conversion'
-        "--extra-libs='${ffmpeg_extra_libs}'" # -lstdc++ / -lc++ needs by libjxl and shaderc
+        # -lstdc++ / -lc++ needs by libjxl and shaderc. The Windows libs are for
+        # static openal-soft: its openal.pc no longer lists them.
+        "--extra-libs='${ffmpeg_extra_libs} -lole32 -luuid -lshlwapi -lshell32'"
     BUILD_COMMAND ${MAKE}
     INSTALL_COMMAND ${MAKE} install
     LOG_DOWNLOAD 1 LOG_UPDATE 1 LOG_CONFIGURE 1 LOG_BUILD 1 LOG_INSTALL 1
