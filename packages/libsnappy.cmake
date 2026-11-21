@@ -19,7 +19,8 @@ ExternalProject_Add(libsnappy
         -DSNAPPY_BUILD_TESTS=OFF
         -DSNAPPY_BUILD_BENCHMARKS=OFF
         -DSNAPPY_INSTALL=ON
-        "-DCMAKE_CXX_FLAGS=-Werror -Wno-error"
+        # Single quotes: ${EXEC} runs the line through a shell, which would split it.
+        -DCMAKE_CXX_FLAGS='-Werror -Wno-error'
     BUILD_COMMAND ${EXEC} ninja -C <BINARY_DIR>
     INSTALL_COMMAND ${EXEC} ninja -C <BINARY_DIR> install
     LOG_DOWNLOAD 1 LOG_UPDATE 1 LOG_CONFIGURE 1 LOG_BUILD 1 LOG_INSTALL 1
