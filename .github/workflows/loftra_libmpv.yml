@@ -11,9 +11,11 @@ on:
 env:
   BIT: x86_64
   CACHE_PREFIX: loftra-v1
-  # Packages cache only; bump it when a cached source points at a commit that
-  # upstream no longer has ("not our ref" in the update step).
-  PACKAGES_PREFIX: loftra-p3
+  # Packages build and package sources caches (always saved together). Bump it to
+  # start both from scratch. Without the sources cache the build stamps say
+  # "downloaded" while src_packages is empty, so the update step runs git in the
+  # workspace repo and fails on .git/index.lock (code 128).
+  PACKAGES_PREFIX: loftra-p4
 
 jobs:
   toolchain:
@@ -112,6 +114,13 @@ jobs:
           key: ${{ env.CACHE_PREFIX }}-clang_root
           fail-on-cache-miss: true
 
+      - name: Loading package sources
+        uses: actions/cache/restore@v4
+        with:
+          path: src_packages
+          key: ${{ env.PACKAGES_PREFIX }}-sources-${{ github.run_id }}
+          restore-keys: ${{ env.PACKAGES_PREFIX }}-sources-
+
       - name: Loading packages build
         id: packages_cache
         uses: actions/cache/restore@v4
@@ -187,6 +196,13 @@ jobs:
         if: always()
         run: |
           rm -rf build_x86_64/mpv* out logs
+
+      - name: Saving package sources
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: src_packages
+          key: ${{ env.PACKAGES_PREFIX }}-sources-${{ github.run_id }}
 
       - name: Saving packages build
         if: always()
