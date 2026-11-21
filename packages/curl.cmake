@@ -14,7 +14,9 @@ ExternalProject_Add(curl
     SOURCE_DIR ${SOURCE_LOCATION}
     GIT_CLONE_FLAGS "--filter=tree:0"
     GIT_CLONE_POST_COMMAND "sparse-checkout set --no-cone /* !tests !docs"
-    PATCH_COMMAND ${EXEC} git am --3way ${CMAKE_CURRENT_SOURCE_DIR}/curl-*.patch
+    # curl is left out of the update target, so a cached source tree keeps the
+    # patch commit; skip git am when it is already applied.
+    PATCH_COMMAND bash -c "git log -1 --format=%s | grep -qx 'libssh: include SCP declarations' || git am --3way ${CMAKE_CURRENT_SOURCE_DIR}/curl-*.patch"
     UPDATE_COMMAND ""
     CONFIGURE_COMMAND ${EXEC} ${CMAKE_COMMAND} -H<SOURCE_DIR> -B<BINARY_DIR>
         -G Ninja
